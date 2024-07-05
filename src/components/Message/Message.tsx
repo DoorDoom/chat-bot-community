@@ -1,5 +1,5 @@
 import React from "react";
-import { Participant } from "@components/simple/participant/Participant";
+import { Participant } from "@components/common/participant/Participant";
 import { MessageInfo } from "types/dataInterfaces";
 import { formatAMPM } from "utils/utils";
 import { Image } from "antd";

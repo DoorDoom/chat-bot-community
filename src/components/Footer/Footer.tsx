@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import { Input } from "antd";
 import "./Footer.scss";
-import { IconButton } from "@components/simple/IconButton/IconButton";
+import { IconButton } from "@components/common/IconButton/IconButton";
 import { useMessageStore, useMessagesStore } from "stores/messagesStore";
+import { MessageStatus } from "constants/enums";
 
 export const Footer = () => {
   const [message, setMessage] = useState("");
@@ -13,7 +14,11 @@ export const Footer = () => {
     setMessage(e.target.value);
 
   const onClick = () => {
-    useMessageStore.setState({ text: message, time: new Date() });
+    useMessageStore.setState({
+      text: message,
+      time: new Date(),
+      status: MessageStatus.Sending,
+    });
     setMessage("");
   };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import "./Participants.scss";
-import { Participant } from "@components/simple/participant/Participant";
+import { Participant } from "@components/common/participant/Participant";
 import { users } from "constants/constants";
 
 export const Participants = () => {

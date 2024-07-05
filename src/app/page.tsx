@@ -2,19 +2,43 @@
 
 import { Message } from "@components/Message/Message";
 import React, { useEffect, useRef } from "react";
+import { getHello } from "services/apiService";
 import { useMessageStore, useMessagesStore } from "stores/messagesStore";
 import { MessageInfo } from "types/dataInterfaces";
+import { HttpError } from "types/errors";
 
 export default function RootPage() {
   const messages = useMessagesStore((state) => state.msgs);
   const addMessage = useMessagesStore((state) => state.addElement);
   const initStorage = useMessagesStore((state) => state.initStorage);
+  const editStorage = useMessagesStore((state) => state.editStorage);
 
   const container = useRef<HTMLDivElement | null>(null);
 
   const toTop = () => {
     const c: HTMLDivElement = container.current as HTMLDivElement;
     if (c) c.scrollTop = c.scrollHeight;
+  };
+
+  const sendMessage = async () => {
+    try {
+      const response = await getHello();
+
+      if (!response.ok)
+        throw new HttpError(response.status, "Error occures in telegram bot");
+
+      const result: MessageInfo = await response.json();
+
+      editStorage();
+
+      addMessage({
+        ...result,
+        time:
+          typeof result.time === "string" ? new Date(result.time) : result.time,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -40,6 +64,7 @@ export default function RootPage() {
       (state) => state,
       (newMsg) => {
         addMessage(newMsg);
+        sendMessage();
         localStorage.setItem(
           "messages",
           JSON.stringify(useMessagesStore.getState().msgs)
