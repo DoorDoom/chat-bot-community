@@ -36,6 +36,11 @@ export default function RootPage() {
         time:
           typeof result.time === "string" ? new Date(result.time) : result.time,
       });
+
+      localStorage.setItem(
+        "messages",
+        JSON.stringify(useMessagesStore.getState().msgs)
+      );
     } catch (error) {
       console.log(error);
     }
