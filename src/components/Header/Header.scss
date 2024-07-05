@@ -1,0 +1,15 @@
+.header {
+  @apply shadow-[0_1px_0_0_#E5E5EA] h-17 flex justify-between items-center px-14p;
+
+  &__naming {
+    @apply flex flex-col justify-between items-center gap-1;
+  }
+
+  &__panel {
+    @apply flex justify-end;
+  }
+}
+
+.header-part {
+  @apply w-[33%];
+}

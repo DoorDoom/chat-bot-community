@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "normalize/normalize.css";
+@import "fonts.scss";
+
+body {
+  font-family: "Jost";
+}
+
+body,
+html {
+  @apply h-full  max-h-full;
+}
+
+.main-block {
+  @apply flex min-h-screen flex-col;
+}
+
+.main-container {
+  @apply h-full max-h-full flex flex-col;
+}
+
+.item-expand {
+  @apply grow shrink basis-0;
+}
+
+.icon-button {
+  @apply text-base;
+}
+
+h2 {
+  @apply font-semibold text-sm;
+}
+
+span {
+  @apply font-normal text-xs text-mid-gray;
+}

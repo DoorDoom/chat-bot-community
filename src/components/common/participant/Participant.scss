@@ -1,0 +1,12 @@
+.participant {
+  @apply w-7 h-7 rounded-full overflow-hidden relative border-white border-[1px];
+}
+
+.big-participant {
+  @apply w-8 h-8 min-w-8;
+}
+
+.participant::after {
+  @apply absolute block border-cod-gray/10 border-2 w-full h-full rounded-full inset-0;
+  content: "";
+}
