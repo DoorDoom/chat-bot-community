@@ -3,21 +3,17 @@ import { Participant } from "@components/common/participant/Participant";
 import { MessageInfo } from "types/dataInterfaces";
 import { formatAMPM } from "utils/utils";
 import { Image } from "antd";
-
-import "./Message.scss";
 import { useUserStore } from "stores/userStore";
+import "./Message.scss";
 
 export const Message = ({ msg }: Props) => {
   const name = useUserStore((state) => state.name);
   const isMine = name === msg.name;
 
   return (
-    <div className={`message ${isMine ? "self-end pr-6" : ""}`}>
-      <Participant
-        src={msg.photo}
-        style={`big-participant ${isMine ? "hidden" : ""}`}
-      />
-      <div className={`${isMine ? "mine-block" : "block"}`}>
+    <div className={`message ${isMine ? "mine-message" : ""}`}>
+      <Participant src={msg.photo} style="big-participant" />
+      <div className={isMine ? "block right" : "block left"}>
         <div className="message__title">
           <h2>{msg.name}</h2>
           <span>{msg.position}</span>
@@ -25,7 +21,7 @@ export const Message = ({ msg }: Props) => {
         <div className="message__text">
           <p>{msg.text}</p>
           {msg.picture ? (
-            <div className="w-full">
+            <div className="w-full mt-2">
               <Image src={msg.picture} alt="image" />
             </div>
           ) : (
@@ -33,8 +29,8 @@ export const Message = ({ msg }: Props) => {
           )}
         </div>
         <div className="message__time">
-          <span>{msg.time ? formatAMPM(msg.time as Date) : "00:00 AM"}</span>
-          <i className={`bx bx-${msg.status} ${isMine ? "" : "hidden"}`}></i>
+          <span>{msg.time ? formatAMPM(msg.time) : "00:00 AM"}</span>
+          <i className={`bx bx-${msg.status}`}></i>
         </div>
       </div>
     </div>

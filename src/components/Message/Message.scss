@@ -16,13 +16,59 @@
   &__title {
     @apply flex gap-2 items-center;
   }
+
+  i {
+    @apply hidden;
+  }
+}
+
+.message.mine-message {
+  @apply self-end pr-6;
+
+  .big-participant {
+    @apply hidden;
+  }
+
+  .block {
+    @apply bg-azure-radiance rounded-md px-2 py-1 ml-3 relative text-white max-w-full;
+
+    .message {
+      &__title {
+        @apply hidden;
+      }
+
+      &__text {
+        p {
+          @apply pr-20;
+        }
+      }
+    }
+
+    span {
+      @apply text-white;
+    }
+  }
+
+  .block.right::after {
+    content: "";
+    position: absolute; /* Абсолютное позиционирование */
+    right: -8px;
+    top: 0px; /* Положение треугольника */
+    border-radius: 2px;
+    border: 10px solid transparent; /* Прозрачные границы */
+    border-top: 10px solid #007aff; /* Добавляем треугольник */
+  }
+
+  i {
+    @apply inline-block;
+  }
 }
 
 .block {
   @apply bg-athens-gray rounded-md px-2 py-1 ml-3 relative text-shark max-w-full;
 }
 
-.block::after {
+.block.left::after {
   content: "";
   position: absolute; /* Абсолютное позиционирование */
   left: -8px;
@@ -30,36 +76,6 @@
   border-radius: 2px;
   border: 10px solid transparent; /* Прозрачные границы */
   border-top: 10px solid #f2f2f7; /* Добавляем треугольник */
-}
-
-.mine-block {
-  @apply bg-azure-radiance rounded-md px-2 py-1 ml-3 relative text-white max-w-full;
-
-  .message {
-    &__title {
-      @apply hidden;
-    }
-
-    &__text {
-      p {
-        @apply pr-20;
-      }
-    }
-  }
-
-  span {
-    @apply text-white;
-  }
-}
-
-.mine-block::after {
-  content: "";
-  position: absolute; /* Абсолютное позиционирование */
-  right: -8px;
-  top: 0px; /* Положение треугольника */
-  border-radius: 2px;
-  border: 10px solid transparent; /* Прозрачные границы */
-  border-top: 10px solid #007aff; /* Добавляем треугольник */
 }
 
 .readed {

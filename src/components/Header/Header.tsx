@@ -1,8 +1,7 @@
 import React from "react";
-import "./Header.scss";
 import { Participants } from "@components/Participants/Participants";
-import { Button } from "antd";
 import { IconButton } from "@components/common/IconButton/IconButton";
+import "./Header.scss";
 
 export const Header = () => {
   return (

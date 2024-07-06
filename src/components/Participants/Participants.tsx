@@ -1,7 +1,7 @@
 import React from "react";
-import "./Participants.scss";
 import { Participant } from "@components/common/participant/Participant";
 import { users } from "constants/constants";
+import "./Participants.scss";
 
 export const Participants = () => {
   return (

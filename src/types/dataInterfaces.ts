@@ -6,13 +6,13 @@ export interface MessageInfo {
   picture?: string | null;
   text: string;
   position?: string;
-  time: Date | null | string;
+  time: string;
   status: MessageStatus;
 }
 
 export interface MessagesStoredInfo {
   msgs: MessageInfo[];
-  addElement: (newMessage: MessageInfo) => void;
+  addMessage: (newMessage: MessageInfo) => void;
   initStorage: (messages: MessageInfo[]) => void;
   editStorage: () => void;
 }

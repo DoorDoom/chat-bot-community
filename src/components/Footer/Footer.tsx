@@ -16,7 +16,7 @@ export const Footer = () => {
   const onClick = () => {
     useMessageStore.setState({
       text: message,
-      time: new Date(),
+      time: new Date().toISOString(),
       status: MessageStatus.Sending,
     });
     setMessage("");

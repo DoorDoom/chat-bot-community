@@ -8,7 +8,7 @@ export async function GET() {
     photo:
       "https://sun1-27.userapi.com/s/v1/ig2/iJubJ3GIDmtdk-X1Jq7lN0UNmq3jfRaBe_isP2_trx71sLvKMPVVz-CUU_yESJWAqrF_LsKL2cUUBIiSifSLHVR4.jpg?size=841x900&quality=96&crop=29,0,841,900&ava=1",
     text: "Hello world!",
-    time: new Date(),
+    time: new Date().toISOString(),
     status: MessageStatus.Readed,
   });
 }
