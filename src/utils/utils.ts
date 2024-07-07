@@ -11,3 +11,18 @@ export const formatAMPM = (date: string) => {
 export const toTop = (container: HTMLDivElement | null) => {
   if (container) container.scrollTop = container.scrollHeight;
 };
+
+export const fileToString = (
+  file: File,
+  callback: (elem: string) => void | string
+) => {
+  const reader = new FileReader();
+  reader.addEventListener(
+    "load",
+    () => {
+      callback(reader.result as string);
+    },
+    false
+  );
+  reader.readAsDataURL(file);
+};

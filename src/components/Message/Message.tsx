@@ -1,7 +1,7 @@
 import React from "react";
 import { Participant } from "@components/common/participant/Participant";
 import { MessageInfo } from "types/dataInterfaces";
-import { formatAMPM } from "utils/utils";
+import { fileToString, formatAMPM } from "utils/utils";
 import { Image } from "antd";
 import { useUserStore } from "stores/userStore";
 import "./Message.scss";
@@ -9,6 +9,13 @@ import "./Message.scss";
 export const Message = ({ msg }: Props) => {
   const name = useUserStore((state) => state.name);
   const isMine = name === msg.name;
+
+  const checkPicture = (picture: string | File): string => {
+    if (typeof picture === "string") return picture;
+    let newPicture = "";
+    fileToString(picture, (file: string) => (newPicture = file));
+    return newPicture;
+  };
 
   return (
     <div className={`message ${isMine ? "mine-message" : ""}`}>
@@ -22,7 +29,7 @@ export const Message = ({ msg }: Props) => {
           <p>{msg.text}</p>
           {msg.picture ? (
             <div className="w-full mt-2">
-              <Image src={msg.picture} alt="image" />
+              <Image src={checkPicture(msg.picture)} alt="image" />
             </div>
           ) : (
             <></>

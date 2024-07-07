@@ -6,6 +6,7 @@ import { getHello } from "services/apiService";
 import { useMessageStore, useMessagesStore } from "stores/messagesStore";
 import { MessageInfo } from "types/dataInterfaces";
 import { HttpError } from "types/errors";
+// import debounce from 'lodash/debounce';
 import "./Chat.scss";
 import { toTop } from "utils/utils";
 
@@ -16,7 +17,7 @@ export default function Chat() {
     initStorage,
     editStorage,
   } = useMessagesStore((state) => state);
-  const container = useRef<HTMLDivElement | null>(null);
+  const container = useRef<HTMLDivElement>(null);
 
   const changeMessagesStoreState = (result: MessageInfo) => {
     editStorage();
