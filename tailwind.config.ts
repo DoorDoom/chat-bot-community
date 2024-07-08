@@ -14,8 +14,11 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       spacing: {
+        "1p": "0.063rem",
+        "10p": "0.625rem",
         "17": "4.25rem",
         "14p": "0.875rem",
+        "34p": "2.125rem",
       },
       colors: {
         "cod-gray": "#1E1E1E",
@@ -24,6 +27,7 @@ const config: Config = {
         shark: "#2C2C2E",
         "pastel-green": "#81E299",
         "mid-gray": "#666668",
+        emerald: "#34C759",
       },
     },
   },

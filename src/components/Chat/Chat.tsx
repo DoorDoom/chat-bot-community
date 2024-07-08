@@ -85,14 +85,12 @@ export default function Chat() {
       ref={container}
       id="scroll-container"
     >
-      <div className="item flex flex-col justify-end">
+      <div className="chat item">
         {messages.map((msg, index) => (
           <div key={`message-${index}`} className="max-w-full grid">
             {index == 0 ||
             getDate(messages[index - 1].time) !== getDate(msg.time) ? (
-              <span className="w-full text-center py-3">
-                {getDate(msg.time)}
-              </span>
+              <span className="date">{getDate(msg.time)}</span>
             ) : (
               <></>
             )}

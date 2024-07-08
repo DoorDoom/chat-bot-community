@@ -28,7 +28,7 @@ export const Message = ({ msg }: Props) => {
 
   return (
     <div className={`message ${isMine ? "mine-message" : ""}`}>
-      <Participant src={msg.photo} style="big-participant" />
+      <Participant src={msg.photo} style="big-participant" isOnline={true} />
       <div className={isMine ? "block right" : "block left"}>
         <div className="message__title">
           <h2>{msg.name}</h2>

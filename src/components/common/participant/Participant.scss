@@ -3,10 +3,16 @@
 }
 
 .big-participant {
-  @apply w-8 h-8 min-w-8;
+  .participant {
+    @apply w-34p h-34p min-w-34p;
+  }
 }
 
 .participant::after {
   @apply absolute block border-cod-gray/10 border-2 w-full h-full rounded-full inset-0;
   content: "";
+}
+
+.online {
+  @apply bg-emerald w-10p h-10p absolute bottom-0 right-0 border-[1px] rounded-full border-white;
 }

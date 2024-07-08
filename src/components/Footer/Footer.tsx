@@ -15,6 +15,7 @@ import "./Footer.scss";
 
 export const Footer = () => {
   const [message, setMessage] = useState<MessageInfo>(initialMessage);
+  const [refreash, setRefreash] = useState(false);
   const isCreated = useMessagesStore((state) => state.isCreated);
   const setMessageState = useMessageStore((state) => state.setMessage);
   const input = useRef<InputRef>(null);
@@ -41,6 +42,7 @@ export const Footer = () => {
 
   const toInitialState = () => {
     setMessage(initialMessage);
+    setRefreash(true);
   };
 
   const onClick = () => {
@@ -74,8 +76,9 @@ export const Footer = () => {
   }, []);
 
   useEffect(() => {
-    input.current!.input!.value = message.text;
-  }, [message]);
+    input.current!.input!.value = "";
+    setRefreash(false);
+  }, [input, refreash]);
 
   return (
     <div className="footer">
@@ -85,7 +88,8 @@ export const Footer = () => {
           ref={input}
           placeholder="Start typing..."
           variant="borderless"
-          onChange={debouncedOnChange}
+          onChange={updateMessage}
+          value={message.text}
         />
       </div>
       <Upload {...props}>
