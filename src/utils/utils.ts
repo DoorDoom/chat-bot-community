@@ -1,11 +1,11 @@
+import dayjs from "dayjs";
+
 export const formatAMPM = (date: string) => {
-  const localeDate = new Date(date);
-  let hours = localeDate.getHours();
-  const minutes = localeDate.getMinutes();
-  let ampm = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12;
-  hours = hours ? hours : 12; // The hour '0' should be '12'
-  return `${hours}:${minutes < 10 ? "0" + minutes : minutes} ${ampm}`;
+  return dayjs(date).format("HH:mm A");
+};
+
+export const getDate = (date: string) => {
+  return dayjs(date).format("DD/MM/YYYY");
 };
 
 export const toTop = (container: HTMLDivElement | null) => {
@@ -25,4 +25,11 @@ export const fileToString = (
     false
   );
   reader.readAsDataURL(file);
+};
+
+export const checkPicture = (picture: string | File): string => {
+  if (typeof picture === "string") return picture;
+  let newPicture = "";
+  fileToString(picture, (file: string) => (newPicture = file));
+  return newPicture;
 };

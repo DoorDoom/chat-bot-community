@@ -6,29 +6,31 @@ import { getHello } from "services/apiService";
 import { useMessageStore, useMessagesStore } from "stores/messagesStore";
 import { MessageInfo } from "types/dataInterfaces";
 import { HttpError } from "types/errors";
-// import debounce from 'lodash/debounce';
 import "./Chat.scss";
-import { toTop } from "utils/utils";
+import { getDate, toTop } from "utils/utils";
 
 export default function Chat() {
   const {
     msgs: messages,
     addMessage,
     initStorage,
+    isCreated,
     editStorage,
+    editMessage,
   } = useMessagesStore((state) => state);
+  const { initialMessage } = useMessageStore((state) => state);
   const container = useRef<HTMLDivElement>(null);
+
+  const save = (messages: string) => {
+    localStorage.setItem("messages", messages);
+  };
 
   const changeMessagesStoreState = (result: MessageInfo) => {
     editStorage();
-
     addMessage(result);
-
-    localStorage.setItem(
-      "messages",
-      JSON.stringify(useMessagesStore.getState().msgs)
-    );
+    save(JSON.stringify(useMessagesStore.getState().msgs));
   };
+
   const sendMessage = async () => {
     try {
       const response = await getHello();
@@ -41,6 +43,7 @@ export default function Chat() {
       console.log(error);
     }
   };
+
   const initMessagesStoreState = () => {
     const storagedMessagesString = localStorage.getItem("messages");
 
@@ -56,12 +59,16 @@ export default function Chat() {
     const unsubscribe = useMessageStore.subscribe(
       (state) => state,
       (newMsg) => {
-        addMessage(newMsg);
-        sendMessage();
-        localStorage.setItem(
-          "messages",
-          JSON.stringify(useMessagesStore.getState().msgs)
-        );
+        if (isCreated(newMsg.msg.id)) {
+          editMessage(newMsg.msg);
+        } else {
+          if (newMsg.msg.id !== "0") {
+            changeMessagesStoreState(newMsg.msg);
+            initialMessage();
+            sendMessage();
+          }
+        }
+        save(JSON.stringify(useMessagesStore.getState().msgs));
       }
     );
 
@@ -80,7 +87,17 @@ export default function Chat() {
     >
       <div className="item flex flex-col justify-end">
         {messages.map((msg, index) => (
-          <Message key={`message-${index}`} msg={msg} />
+          <div key={`message-${index}`} className="max-w-full grid">
+            {index == 0 ||
+            getDate(messages[index - 1].time) !== getDate(msg.time) ? (
+              <span className="w-full text-center py-3">
+                {getDate(msg.time)}
+              </span>
+            ) : (
+              <></>
+            )}
+            <Message msg={msg} />
+          </div>
         ))}
       </div>
     </div>

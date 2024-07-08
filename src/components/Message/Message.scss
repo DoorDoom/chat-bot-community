@@ -23,7 +23,7 @@
 }
 
 .message.mine-message {
-  @apply self-end pr-6;
+  @apply self-end pr-6 justify-self-end;
 
   .big-participant {
     @apply hidden;

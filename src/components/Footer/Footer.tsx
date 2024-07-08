@@ -2,55 +2,80 @@
 
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Input, InputRef, Upload, UploadProps } from "antd";
-import "./Footer.scss";
 import { IconButton } from "@components/common/IconButton/IconButton";
 import { useMessageStore, useMessagesStore } from "stores/messagesStore";
 import { MessageStatus } from "constants/enums";
 import { fileToString } from "utils/utils";
 import { debounce } from "lodash";
 import { v4 } from "uuid";
+import { useUserStore } from "stores/userStore";
+import { MessageInfo } from "types/dataInterfaces";
+import { initialMessage } from "constants/constants";
+import "./Footer.scss";
 
 export const Footer = () => {
-  const [message, setMessage] = useState("");
-  const [file, setFile] = useState<string>("");
-  const [refreash, setRefreash] = useState(false);
+  const [message, setMessage] = useState<MessageInfo>(initialMessage);
+  const isCreated = useMessagesStore((state) => state.isCreated);
+  const setMessageState = useMessageStore((state) => state.setMessage);
   const input = useRef<InputRef>(null);
-
-  const updateMessage = (e: ChangeEvent<HTMLInputElement>) =>
-    setMessage(e.target.value);
-  const debouncedOnChange = debounce(updateMessage, 200);
-  const toInitialState = () => {
-    setMessage("");
-    setFile("");
-    setRefreash(true);
-  };
-
   const props: UploadProps = {
     name: "file",
     accept: "image/png, image/jpg, image/webp",
     onChange(info) {
-      fileToString(info.file.originFileObj as File, (file: string) =>
-        setFile(file)
-      );
+      fileToString(info.file.originFileObj as File, (file: string) => {
+        setMessage((prev) => {
+          return { ...prev, picture: file };
+        });
+      });
     },
     showUploadList: false,
   };
 
-  const onClick = () => {
-    useMessageStore.setState({
-      id: v4(),
-      text: message,
-      time: new Date().toISOString(),
-      status: MessageStatus.Sending,
-      picture: file,
+  const updateMessage = (e: ChangeEvent<HTMLInputElement>) => {
+    setMessage((prev) => {
+      return { ...prev, text: e.target.value };
     });
+  };
+
+  const debouncedOnChange = debounce(updateMessage, 200);
+
+  const toInitialState = () => {
+    setMessage(initialMessage);
+  };
+
+  const onClick = () => {
+    if (isCreated(message.id)) {
+      setMessageState(message);
+    } else
+      setMessageState({
+        ...useUserStore.getState(),
+        id: v4(),
+        text: message.text,
+        time: new Date().toISOString(),
+        status: MessageStatus.Sending,
+        picture: message.picture,
+      });
     toInitialState();
   };
 
   useEffect(() => {
-    input.current!.input!.value = message;
-    setRefreash(false);
-  }, [refreash]);
+    const unsubscribe = useMessageStore.subscribe(
+      (state) => state,
+      (newMsg) => {
+        if (isCreated(newMsg.msg.id)) {
+          setMessage(newMsg.msg);
+        }
+      }
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    input.current!.input!.value = message.text;
+  }, [message]);
 
   return (
     <div className="footer">
@@ -64,19 +89,26 @@ export const Footer = () => {
         />
       </div>
       <Upload {...props}>
-        <IconButton name="at" style={file ? "text-azure-radiance" : ""} />
+        <IconButton
+          name="at"
+          style={message.picture ? "text-azure-radiance" : ""}
+        />
       </Upload>
-      <div className={file ? "" : "hidden"}>
+      <div className={message.picture ? "" : "hidden"}>
         <IconButton
           name="trash"
-          style={file ? "text-red-600" : ""}
-          onClick={() => setFile("")}
+          style={message.picture ? "text-red-600" : ""}
+          onClick={() =>
+            setMessage((prev) => {
+              return { ...prev, picture: "" };
+            })
+          }
         />
       </div>
       <IconButton
         name="send"
-        style={message || file ? "text-azure-radiance" : ""}
-        disabled={!message && !file}
+        style={message.text || message.picture ? "text-azure-radiance" : ""}
+        disabled={!message.text && !message.picture}
         onClick={onClick}
       />
     </div>

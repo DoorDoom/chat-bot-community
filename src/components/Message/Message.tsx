@@ -1,7 +1,7 @@
 import React from "react";
 import { Participant } from "@components/common/participant/Participant";
 import { MessageInfo } from "types/dataInterfaces";
-import { fileToString, formatAMPM } from "utils/utils";
+import { checkPicture, fileToString, formatAMPM } from "utils/utils";
 import { Image } from "antd";
 import { useUserStore } from "stores/userStore";
 import "./Message.scss";
@@ -11,14 +11,8 @@ import { useMessageStore, useMessagesStore } from "stores/messagesStore";
 export const Message = ({ msg }: Props) => {
   const name = useUserStore((state) => state.name);
   const deleteMessage = useMessagesStore((state) => state.deleteMessage);
+  const editMessage = useMessageStore((state) => state.setMessage);
   const isMine = name === msg.name;
-
-  const checkPicture = (picture: string | File): string => {
-    if (typeof picture === "string") return picture;
-    let newPicture = "";
-    fileToString(picture, (file: string) => (newPicture = file));
-    return newPicture;
-  };
 
   const changeMessagesStoreStateD = () => {
     deleteMessage(msg.id);
@@ -26,6 +20,10 @@ export const Message = ({ msg }: Props) => {
       "messages",
       JSON.stringify(useMessagesStore.getState().msgs)
     );
+  };
+
+  const changeMessagesStoreStateE = () => {
+    editMessage(msg);
   };
 
   return (
@@ -52,7 +50,7 @@ export const Message = ({ msg }: Props) => {
               <IconButton
                 name="pencil"
                 style={"mini-icon"}
-                // onClick={editMessage}
+                onClick={changeMessagesStoreStateE}
                 size="small"
               />
               <IconButton
@@ -63,7 +61,7 @@ export const Message = ({ msg }: Props) => {
               />
             </>
           ) : (
-            ""
+            <></>
           )}
 
           <span className="pl-2">

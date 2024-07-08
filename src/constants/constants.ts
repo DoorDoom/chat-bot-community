@@ -1,6 +1,21 @@
+import { MessageInfo } from "types/dataInterfaces";
+import { MessageStatus } from "./enums";
+
 export const users: string[] = [
   "https://s3-alpha-sig.figma.com/img/10e8/ca44/0d13be8eb41c740c86723de252569da9?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=HMGBqSImmsT9eoLtuMIj~84NDd~bttVWd-UqMdGo1wZY7FXuF-~W-xY-E7qZp-mz3IVXi6YDJ6BWE0JJZvfHS5JgvapjhbW91YAH9uxBNj2jEOeinuicN2kuggu8ddynWX5tRXqxkmp17zr~PLsyww8RjUo1epnhZwtyJOGIFUH9UTWSH7YygV4QLfTaPZWSMeQ8-~L7VdVKt8HsgUHjKxuVTAwPm-AfQ9w9-Sf7FfUAabr19KVthl4iIYeMCL4M7Fw5Im~7DLzpNVNB70dX6~043RzVVKqW9C8VWSdaMREwn6kb4A4bXGZkCZLHueuUXNk8QIZdKsYVEjnUAz36GQ__",
   "https://s3-alpha-sig.figma.com/img/dbaa/16a5/0e7db451d868b67382bd8b61d8ac3da1?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=lTi9iOOzYNF5Hb-lEagNUVezR6pKP-hAksNHwoMIqAHUuYAJiy5itKZcxN0d4nI0Q6ygYagXZcIFIviGRpy21Fo028Hg6VEchwlQKDDxiYcIgIwjHs0G1Suto6N5K4NkJFFU6IBrVlmC6SdQus9wQFeyeqDfcCY5ovGtp17AzUDvTznjEJXTCO68XBMM9IRMs5imZPqktZ2ey9EKYHDdgsDrCibK2Nn4R83ocxkLkPc2dvYTAK8eV4gPfVjqyTIcjFdZCptcDTvgKi3UUKoA2WpD9a0ld-E89IiEfKnvyv65fqVSmQMI7x12igrVfzqTfSh62OWiyEj9C3zAoxJwXg__",
   "https://s3-alpha-sig.figma.com/img/1c10/3a1a/cc0b9825064a996efd2dc58920faabd3?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AbP7uvuvAHs6bPJRc1x7UnoOSvDSp2-5ytZQ5TyEj4Ie5e8Mxv5qsgwiV5zsEPmDV9vmL0oTtGZkgCDH3LNRNp4kOx7syim9Koa4t3k1NZ-E0J0T5e2Bpvoo789VdGr6D6ZkRMAnGFlCCc2pY0DU1fgbKVM9aAob4pMW8hXU-hPcnZpqXi3~h4P0fNgSkfCuDrIqi2B90xlrfDlClC3CfbIhnhLKfmuZOhJJS9aom8hT5HIKVt5KyNPQ9SsjxSPWEtHAu2NU-OBr70h19w87Y~X3P8uO~tGTThT-CsGmP-aHHQjXKzfLIv9mH5YIS2Cq64qF8tSkRtOrWSzt8GuGJA__",
   "https://s3-alpha-sig.figma.com/img/c05d/1b14/f3a120be540c5f09aa4efa717c427906?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=nIF~2HTaC2FF0nBPh7YPVjjm3V44VgRyDaj~0t9EFE62Etft28ZYQkjkonFKvjgfKP6nESpWEzEYYE9ShL7440CYmhwwtJclkuoNA4AVvKZlv886xmSPoZjGfj21AU0HdwGmGa7OUoO88I6HhyaElQsABzwoHEnL-VeVx9NcjfC5UDWXqegpWaIFItrG2PHidEjLCqXBRXb9k4BiUGns23vBDL1MFaDQv0RWwujUiYAp3Ld~M7ZCLtlLm-n2L7b0AhE6sKB2mW3PWi0CN6fEnLaLeqngpxf6l5Hsg4XHY5-T7ohyzWwDKL-8LVhI4jYIDLOmvODcO5hhOyk9PGIPdQ__",
 ];
+
+export const initialMessage: MessageInfo = {
+  id: "0",
+  name: "Katerina",
+  photo:
+    "https://s3-alpha-sig.figma.com/img/dbaa/16a5/0e7db451d868b67382bd8b61d8ac3da1?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=lTi9iOOzYNF5Hb-lEagNUVezR6pKP-hAksNHwoMIqAHUuYAJiy5itKZcxN0d4nI0Q6ygYagXZcIFIviGRpy21Fo028Hg6VEchwlQKDDxiYcIgIwjHs0G1Suto6N5K4NkJFFU6IBrVlmC6SdQus9wQFeyeqDfcCY5ovGtp17AzUDvTznjEJXTCO68XBMM9IRMs5imZPqktZ2ey9EKYHDdgsDrCibK2Nn4R83ocxkLkPc2dvYTAK8eV4gPfVjqyTIcjFdZCptcDTvgKi3UUKoA2WpD9a0ld-E89IiEfKnvyv65fqVSmQMI7x12igrVfzqTfSh62OWiyEj9C3zAoxJwXg__",
+  text: "",
+  position: "Engineering",
+  time: new Date().toISOString(),
+  status: MessageStatus.Readed,
+  picture: null,
+};

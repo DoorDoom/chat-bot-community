@@ -14,7 +14,15 @@ export interface MessageInfo {
 export interface MessagesStoredInfo {
   msgs: MessageInfo[];
   addMessage: (newMessage: MessageInfo) => void;
+  editMessage: (changedMessage: MessageInfo) => void;
   initStorage: (messages: MessageInfo[]) => void;
   editStorage: () => void;
   deleteMessage: (id: string) => void;
+  isCreated: (id: string) => boolean;
+}
+
+export interface MessageStoredInfo {
+  msg: MessageInfo;
+  setMessage: (message: MessageInfo) => void;
+  initialMessage: () => void;
 }
