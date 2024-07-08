@@ -6,7 +6,7 @@
   }
 
   &__text {
-    @apply mt-1 mb-3 max-w-full text-wrap;
+    @apply mt-1 mb-3 max-w-full text-wrap min-w-28;
 
     p {
       @apply max-w-full text-wrap break-words pr-16;
@@ -30,7 +30,7 @@
   }
 
   .block {
-    @apply bg-azure-radiance rounded-md px-2 py-1 ml-3 relative text-white max-w-full;
+    @apply bg-azure-radiance rounded-md px-2 py-1 pb-2 ml-3 relative text-white max-w-full;
 
     .message {
       &__title {

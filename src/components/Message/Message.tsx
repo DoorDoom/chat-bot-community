@@ -5,9 +5,12 @@ import { fileToString, formatAMPM } from "utils/utils";
 import { Image } from "antd";
 import { useUserStore } from "stores/userStore";
 import "./Message.scss";
+import { IconButton } from "@components/common/IconButton/IconButton";
+import { useMessageStore, useMessagesStore } from "stores/messagesStore";
 
 export const Message = ({ msg }: Props) => {
   const name = useUserStore((state) => state.name);
+  const deleteMessage = useMessagesStore((state) => state.deleteMessage);
   const isMine = name === msg.name;
 
   const checkPicture = (picture: string | File): string => {
@@ -15,6 +18,14 @@ export const Message = ({ msg }: Props) => {
     let newPicture = "";
     fileToString(picture, (file: string) => (newPicture = file));
     return newPicture;
+  };
+
+  const changeMessagesStoreStateD = () => {
+    deleteMessage(msg.id);
+    localStorage.setItem(
+      "messages",
+      JSON.stringify(useMessagesStore.getState().msgs)
+    );
   };
 
   return (
@@ -36,7 +47,28 @@ export const Message = ({ msg }: Props) => {
           )}
         </div>
         <div className="message__time">
-          <span>{msg.time ? formatAMPM(msg.time) : "00:00 AM"}</span>
+          {isMine ? (
+            <>
+              <IconButton
+                name="pencil"
+                style={"mini-icon"}
+                // onClick={editMessage}
+                size="small"
+              />
+              <IconButton
+                name="trash"
+                size="small"
+                style={"mini-icon text-red-300"}
+                onClick={changeMessagesStoreStateD}
+              />
+            </>
+          ) : (
+            ""
+          )}
+
+          <span className="pl-2">
+            {msg.time ? formatAMPM(msg.time) : "00:00 AM"}
+          </span>
           <i className={`bx bx-${msg.status}`}></i>
         </div>
       </div>

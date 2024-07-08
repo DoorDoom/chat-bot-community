@@ -8,6 +8,7 @@ import { useMessageStore, useMessagesStore } from "stores/messagesStore";
 import { MessageStatus } from "constants/enums";
 import { fileToString } from "utils/utils";
 import { debounce } from "lodash";
+import { v4 } from "uuid";
 
 export const Footer = () => {
   const [message, setMessage] = useState("");
@@ -37,6 +38,7 @@ export const Footer = () => {
 
   const onClick = () => {
     useMessageStore.setState({
+      id: v4(),
       text: message,
       time: new Date().toISOString(),
       status: MessageStatus.Sending,
@@ -46,7 +48,7 @@ export const Footer = () => {
   };
 
   useEffect(() => {
-    if (refreash) input.current!.input!.value = "";
+    input.current!.input!.value = message;
     setRefreash(false);
   }, [refreash]);
 
@@ -64,6 +66,13 @@ export const Footer = () => {
       <Upload {...props}>
         <IconButton name="at" style={file ? "text-azure-radiance" : ""} />
       </Upload>
+      <div className={file ? "" : "hidden"}>
+        <IconButton
+          name="trash"
+          style={file ? "text-red-600" : ""}
+          onClick={() => setFile("")}
+        />
+      </div>
       <IconButton
         name="send"
         style={message || file ? "text-azure-radiance" : ""}

@@ -20,6 +20,10 @@ export default function RootLayout({ children }: Props) {
               Input: {
                 paddingInline: 0,
               },
+              Button: {
+                paddingBlockSM: 0,
+                controlHeightSM: 16,
+              },
             },
           }}
         >
