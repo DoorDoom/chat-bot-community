@@ -7,7 +7,7 @@ import { useMessageStore, useMessagesStore } from "stores/messagesStore";
 import { MessageInfo } from "types/dataInterfaces";
 import { HttpError } from "types/errors";
 import "./Chat.scss";
-import { getDate, toTop } from "utils/utils";
+import { getDate, save, toTop } from "utils/utils";
 
 export default function Chat() {
   const {
@@ -21,14 +21,10 @@ export default function Chat() {
   const { initialMessage } = useMessageStore((state) => state);
   const container = useRef<HTMLDivElement>(null);
 
-  const save = (messages: string) => {
-    localStorage.setItem("messages", messages);
-  };
-
   const changeMessagesStoreState = (result: MessageInfo) => {
     editStorage();
     addMessage(result);
-    save(JSON.stringify(useMessagesStore.getState().msgs));
+    save(useMessagesStore.getState().msgs);
   };
 
   const sendMessage = async () => {
@@ -68,7 +64,7 @@ export default function Chat() {
             sendMessage();
           }
         }
-        save(JSON.stringify(useMessagesStore.getState().msgs));
+        save(useMessagesStore.getState().msgs);
       }
     );
 

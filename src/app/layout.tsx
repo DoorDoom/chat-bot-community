@@ -1,10 +1,10 @@
 import React, { ReactNode } from "react";
 import { Header } from "@components/Header/Header";
+import { Footer } from "@components/Footer/Footer";
+import { ConfigProvider } from "antd";
 import "boxicons/css/boxicons.min.css";
 
 import "@styles/globals.scss";
-import { Footer } from "@components/Footer/Footer";
-import { ConfigProvider } from "antd";
 
 export default function RootLayout({ children }: Props) {
   return (
