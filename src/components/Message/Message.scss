@@ -30,7 +30,7 @@
   }
 
   .block {
-    @apply bg-azure-radiance rounded-md px-2 py-1 pb-2 ml-3 relative text-white max-w-full;
+    @apply bg-azure-radiance rounded-md px-2 py-1 pb-3 md:pb-2 ml-3 relative text-white max-w-full;
 
     .message {
       &__title {

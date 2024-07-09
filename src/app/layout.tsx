@@ -8,7 +8,7 @@ import { ConfigProvider } from "antd";
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html className="full-place" lang="en">
+    <html lang="en">
       <body>
         <ConfigProvider
           theme={{
@@ -27,7 +27,7 @@ export default function RootLayout({ children }: Props) {
             },
           }}
         >
-          <main className="custom-light full-place main-container">
+          <main className="custom-light main-container">
             <Header />
             {children}
             <Footer />

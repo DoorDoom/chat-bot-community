@@ -1,62 +1,56 @@
 "use client";
 
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { Input, InputRef, Upload, UploadProps } from "antd";
+import { Input, Upload, UploadProps } from "antd";
 import { IconButton } from "@components/common/IconButton/IconButton";
 import { useMessageStore, useMessagesStore } from "stores/messagesStore";
 import { MessageStatus } from "constants/enums";
 import { fileToString } from "utils/utils";
-import { debounce } from "lodash";
 import { v4 } from "uuid";
 import { useUserStore } from "stores/userStore";
 import { MessageInfo } from "types/dataInterfaces";
 import { initialMessage } from "constants/constants";
 import "./Footer.scss";
+import useDebounce from "hooks/TimeHooks";
 
 export const Footer = () => {
   const [message, setMessage] = useState<MessageInfo>(initialMessage);
-  const [refreash, setRefreash] = useState(false);
   const isCreated = useMessagesStore((state) => state.isCreated);
   const setMessageState = useMessageStore((state) => state.setMessage);
-  const input = useRef<InputRef>(null);
+  const [inputValue, setInputValue] = useState("");
+  const debouncedInputValue = useDebounce(inputValue, 500);
+
+  const pictureUpload = (file: string) => {
+    setMessage((prev) => {
+      return { ...prev, picture: file };
+    });
+  };
+
   const props: UploadProps = {
     name: "file",
     accept: "image/png, image/jpg, image/webp",
     onChange(info) {
-      fileToString(info.file.originFileObj as File, (file: string) => {
-        setMessage((prev) => {
-          return { ...prev, picture: file };
-        });
-      });
+      fileToString(info.file.originFileObj as File, pictureUpload);
     },
     showUploadList: false,
   };
 
-  const updateMessage = (e: ChangeEvent<HTMLInputElement>) => {
-    setMessage((prev) => {
-      return { ...prev, text: e.target.value };
-    });
-  };
-
-  const debouncedOnChange = debounce(updateMessage, 200);
-
   const toInitialState = () => {
     setMessage(initialMessage);
-    setRefreash(true);
+    setInputValue("");
   };
 
   const onClick = () => {
-    if (isCreated(message.id)) {
-      setMessageState(message);
-    } else
-      setMessageState({
-        ...useUserStore.getState(),
-        id: v4(),
-        text: message.text,
-        time: new Date().toISOString(),
-        status: MessageStatus.Sending,
-        picture: message.picture,
-      });
+    isCreated(message.id)
+      ? setMessageState(message)
+      : setMessageState({
+          ...useUserStore.getState(),
+          id: v4(),
+          text: message.text,
+          time: new Date().toISOString(),
+          status: MessageStatus.Sending,
+          picture: message.picture,
+        });
     toInitialState();
   };
 
@@ -66,6 +60,7 @@ export const Footer = () => {
       (newMsg) => {
         if (isCreated(newMsg.msg.id)) {
           setMessage(newMsg.msg);
+          setInputValue(newMsg.msg.text);
         }
       }
     );
@@ -76,20 +71,22 @@ export const Footer = () => {
   }, []);
 
   useEffect(() => {
-    input.current!.input!.value = "";
-    setRefreash(false);
-  }, [input, refreash]);
+    if (debouncedInputValue) {
+      setMessage((prev) => {
+        return { ...prev, text: inputValue };
+      });
+    }
+  }, [debouncedInputValue]);
 
   return (
     <div className="footer">
       <IconButton name="smile" />
       <div className="item-expand">
         <Input
-          ref={input}
           placeholder="Start typing..."
           variant="borderless"
-          onChange={updateMessage}
-          value={message.text}
+          onChange={(e) => setInputValue(e.target.value)}
+          value={inputValue}
         />
       </div>
       <Upload {...props}>
