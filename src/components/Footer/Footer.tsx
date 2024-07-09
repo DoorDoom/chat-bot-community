@@ -33,6 +33,7 @@ export const Footer = () => {
       fileToString(info.file.originFileObj as File, pictureUpload);
     },
     showUploadList: false,
+    style: { border: 0 },
   };
 
   const toInitialState = () => {

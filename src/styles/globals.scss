@@ -10,20 +10,17 @@ body {
 }
 
 body,
-html {
-  @apply h-full  max-h-full;
+html,
+main {
+  @apply h-full w-full p-0 m-0 max-h-full;
 }
 
 html {
   @apply text-[12px] sm:text-[16px] lg:text-[20px];
 }
 
-.main-block {
-  @apply flex min-h-screen flex-col;
-}
-
 .main-container {
-  @apply h-full max-h-full flex flex-col;
+  @apply flex flex-col;
 }
 
 .item-expand {

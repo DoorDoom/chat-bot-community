@@ -18,6 +18,7 @@ export const IconButton = ({
       disabled={disabled}
       icon={<i className={`bx bx-${name} icon-button ${style}`}></i>}
       onClick={onClick}
+      className={size}
     />
   );
 };

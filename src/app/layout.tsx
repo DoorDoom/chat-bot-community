@@ -22,7 +22,6 @@ export default function RootLayout({ children }: Props) {
               },
               Button: {
                 paddingBlockSM: 0,
-                controlHeightSM: 16,
               },
             },
           }}

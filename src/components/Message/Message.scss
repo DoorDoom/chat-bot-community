@@ -6,10 +6,15 @@
   }
 
   &__text {
-    @apply mt-1 mb-3 max-w-full text-wrap min-w-28;
+    @apply mt-1 mb-3 max-w-full text-wrap min-w-32 sm:min-w-36;
 
     p {
-      @apply max-w-full text-wrap break-words pr-16;
+      @apply max-w-full text-wrap break-words;
+    }
+    p::after {
+      content: "–––––";
+      visibility: hidden;
+      white-space: nowrap;
     }
   }
 
@@ -23,7 +28,7 @@
 }
 
 .message.mine-message {
-  @apply self-end pr-6 justify-self-end;
+  @apply pr-6 justify-self-end;
 
   .big-participant {
     @apply hidden;
@@ -39,7 +44,12 @@
 
       &__text {
         p {
-          @apply pr-20;
+          @apply text-wrap break-words;
+        }
+        p::after {
+          content: "––––––";
+          visibility: hidden;
+          white-space: nowrap;
         }
       }
     }

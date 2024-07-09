@@ -77,9 +77,8 @@ export default function Chat() {
 
   return (
     <div
-      className="item-expand overflow-auto"
+      className="item-expand overflow-auto flex flex-col justify-end"
       ref={container}
-      id="scroll-container"
     >
       <div className="chat item">
         {messages.map((msg, index) => (
