@@ -1,7 +1,7 @@
 import React from "react";
 import { Participant } from "@components/common/participant/Participant";
 import { MessageInfo } from "types/dataInterfaces";
-import { checkPicture, fileToString, formatAMPM, save } from "utils/utils";
+import { checkPicture, formatAMPM } from "utils/utils";
 import { Image } from "antd";
 import { useUserStore } from "stores/userStore";
 import "./Message.scss";
@@ -16,7 +16,6 @@ export const Message = ({ msg }: Props) => {
 
   const changeMessagesStoreStateD = () => {
     deleteMessage(msg.id);
-    save(useMessagesStore.getState().msgs);
   };
 
   const changeMessagesStoreStateE = () => {

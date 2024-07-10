@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import { MessageInfo } from "types/dataInterfaces";
 
 export const formatAMPM = (date: string) => {
   return dayjs(date).format("HH:mm A");
@@ -26,10 +25,6 @@ export const fileToString = (
     false
   );
   reader.readAsDataURL(file);
-};
-
-export const save = (messages: MessageInfo[]) => {
-  localStorage.setItem("messages", JSON.stringify(messages));
 };
 
 export const checkPicture = (picture: string | File): string => {

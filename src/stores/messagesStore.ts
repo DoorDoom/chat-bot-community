@@ -3,55 +3,64 @@ import {
   MessageStoredInfo,
   MessagesStoredInfo,
 } from "types/dataInterfaces";
-import { subscribeWithSelector } from "zustand/middleware";
+import { subscribeWithSelector, persist } from "zustand/middleware";
 import { create } from "zustand";
 import { MessageStatus } from "constants/enums";
 import { initialMessage } from "constants/constants";
+import { produce } from "immer";
 
+//в этом хранилище не думаю, что нужно использовать immer
 export const useMessageStore = create(
   subscribeWithSelector<MessageStoredInfo>((set) => ({
     msg: initialMessage,
-    setMessage: (message) =>
-      set(() => {
-        return { msg: message };
-      }),
-    initialMessage: () =>
-      set(() => {
-        return { msg: initialMessage };
-      }),
+    setMessage: (message) => set(() => ({ msg: message })),
+    initialMessage: () => set(() => ({ msg: initialMessage })),
   }))
 );
 
-export const useMessagesStore = create<MessagesStoredInfo>((set, get) => ({
-  msgs: [],
-  addMessage: (newMessage: MessageInfo) =>
-    set((state) => {
-      return { msgs: [...state.msgs, newMessage] };
+export const useMessagesStore = create(
+  persist<MessagesStoredInfo>(
+    (set, get) => ({
+      msgs: [],
+      addMessage: (newMessage: MessageInfo) =>
+        set(
+          produce((state: MessagesStoredInfo) => {
+            state.msgs.push(newMessage);
+          })
+        ),
+      editMessage: (newMessage: MessageInfo) =>
+        set(
+          produce((state) => {
+            const ind = state.msgs.findIndex(
+              (elem: MessageInfo) => elem.id === newMessage.id
+            );
+            state.msgs[ind] = newMessage;
+          })
+        ),
+      deleteMessage: (id: string) =>
+        set(
+          produce((state) => {
+            state.msgs = state.msgs.filter(
+              (elem: MessageInfo) => elem.id !== id
+            );
+          })
+        ),
+      isCreated: (id: string) => {
+        const state = get();
+        return state.msgs.some((elem) => elem.id === id);
+      },
+      editStorage: () =>
+        set(
+          produce((state) => {
+            state.msgs.every(
+              (_: MessageInfo, index: number) =>
+                (state.msgs[index].status = MessageStatus.Readed)
+            );
+          })
+        ),
     }),
-  editMessage: (newMessage: MessageInfo) =>
-    set((state) => {
-      const ind = state.msgs.findIndex((elem) => elem.id === newMessage.id);
-      state.msgs[ind] = newMessage;
-      return { msgs: state.msgs };
-    }),
-  initStorage: (messages: MessageInfo[]) =>
-    set(() => {
-      return { msgs: messages };
-    }),
-  deleteMessage: (id: string) =>
-    set((state) => {
-      return { msgs: state.msgs.filter((elem) => elem.id !== id) };
-    }),
-  isCreated: (id: string) => {
-    const state = get();
-    return state.msgs.some((elem) => elem.id === id);
-  },
-  editStorage: () =>
-    set((state) => {
-      const newMessages: MessageInfo[] = state.msgs.map((elem) => {
-        elem.status = MessageStatus.Readed;
-        return elem;
-      });
-      return { msgs: newMessages };
-    }),
-}));
+    {
+      name: "message-storage",
+    }
+  )
+);

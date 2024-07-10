@@ -4,28 +4,20 @@ import { Message } from "@components/Message/Message";
 import React, { useEffect, useRef } from "react";
 import { getHello } from "services/apiService";
 import { useMessageStore, useMessagesStore } from "stores/messagesStore";
-import { MessageInfo } from "types/dataInterfaces";
 import { HttpError } from "types/errors";
 import "./Chat.scss";
-import { getDate, save, toTop } from "utils/utils";
+import { getDate, toTop } from "utils/utils";
 
 export default function Chat() {
   const {
     msgs: messages,
     addMessage,
-    initStorage,
     isCreated,
     editStorage,
     editMessage,
   } = useMessagesStore((state) => state);
   const { initialMessage } = useMessageStore((state) => state);
   const container = useRef<HTMLDivElement>(null);
-
-  const changeMessagesStoreState = (result: MessageInfo) => {
-    editStorage();
-    addMessage(result);
-    save(useMessagesStore.getState().msgs);
-  };
 
   const sendMessage = async () => {
     try {
@@ -34,24 +26,15 @@ export default function Chat() {
       if (!response.ok)
         throw new HttpError(response.status, "Error occures in telegram bot");
 
-      changeMessagesStoreState(await response.json());
+      const newMessage = await response.json();
+      editStorage();
+      addMessage(newMessage);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const initMessagesStoreState = () => {
-    const storagedMessagesString = localStorage.getItem("messages");
-
-    if (storagedMessagesString) {
-      initStorage(JSON.parse(storagedMessagesString));
-    } else {
-      initStorage([]);
-    }
-  };
-
   useEffect(() => {
-    initMessagesStoreState();
     const unsubscribe = useMessageStore.subscribe(
       (state) => state,
       (newMsg) => {
@@ -59,12 +42,11 @@ export default function Chat() {
           editMessage(newMsg.msg);
         } else {
           if (newMsg.msg.id !== "0") {
-            changeMessagesStoreState(newMsg.msg);
+            addMessage(newMsg.msg);
             initialMessage();
             sendMessage();
           }
         }
-        save(useMessagesStore.getState().msgs);
       }
     );
 
