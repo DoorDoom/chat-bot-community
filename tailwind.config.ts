@@ -28,6 +28,7 @@ const config: Config = {
         "pastel-green": "#81E299",
         "mid-gray": "#666668",
         emerald: "#34C759",
+        manatee: "#8E8E93",
       },
     },
   },

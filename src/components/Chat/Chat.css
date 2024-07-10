@@ -1,7 +1,0 @@
-.chat {
-  @apply flex flex-col justify-end;
-}
-
-.date {
-  @apply w-full text-center py-3;
-}

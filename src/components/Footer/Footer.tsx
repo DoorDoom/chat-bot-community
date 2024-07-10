@@ -26,6 +26,12 @@ export const Footer = () => {
     });
   };
 
+  const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if ((event.code === "Enter" && message.text) || message.picture) {
+      onClick();
+    }
+  };
+
   const props: UploadProps = {
     name: "file",
     accept: "image/png, image/jpg, image/webp",
@@ -72,7 +78,7 @@ export const Footer = () => {
   }, []);
 
   useEffect(() => {
-    if (debouncedInputValue) {
+    if (debouncedInputValue || debouncedInputValue === "") {
       setMessage((prev) => {
         return { ...prev, text: inputValue };
       });
@@ -88,18 +94,19 @@ export const Footer = () => {
           variant="borderless"
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
+          onKeyDown={keyDownHandler}
         />
       </div>
       <Upload {...props}>
         <IconButton
           name="at"
-          style={message.picture ? "text-azure-radiance" : ""}
+          style={`${message.picture && "text-azure-radiance"}`}
         />
       </Upload>
-      <div className={message.picture ? "" : "hidden"}>
+      <div className={`${!message.picture && "hidden"}`}>
         <IconButton
           name="trash"
-          style={message.picture ? "text-red-600" : ""}
+          style={`${message.picture && "text-red-600"}`}
           onClick={() =>
             setMessage((prev) => {
               return { ...prev, picture: "" };
@@ -109,7 +116,7 @@ export const Footer = () => {
       </div>
       <IconButton
         name="send"
-        style={message.text || message.picture ? "text-azure-radiance" : ""}
+        style={`send-button ${(message.text || message.picture) && "ready"}`}
         disabled={!message.text && !message.picture}
         onClick={onClick}
       />

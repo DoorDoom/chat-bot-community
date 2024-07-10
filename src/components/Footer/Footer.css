@@ -2,10 +2,8 @@
   @apply shadow-[0_-1px_0_0_#E5E5EA] h-12 flex justify-between items-center px-3;
 }
 
-.footer:focus-within {
-  .send-button {
-    @apply text-azure-radiance;
-  }
+.footer:focus-within .send-button {
+  @apply text-azure-radiance;
 }
 
 .send-button {

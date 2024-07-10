@@ -26,7 +26,7 @@ export default function RootLayout({ children }: Props) {
             },
           }}
         >
-          <main className="custom-light main-container">
+          <main className="main-container">
             <Header />
             {children}
             <Footer />

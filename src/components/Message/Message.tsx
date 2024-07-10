@@ -24,7 +24,7 @@ export const Message = ({ msg }: Props) => {
   };
 
   return (
-    <div className={`message ${isMine ? "mine-message" : ""}`}>
+    <div className={`message ${isMine && "mine-message"}`}>
       <Participant src={msg.photo} style="big-participant" isOnline={true} />
       <div className={isMine ? "block right" : "block left"}>
         <div className="message__title">
@@ -33,16 +33,14 @@ export const Message = ({ msg }: Props) => {
         </div>
         <div className="message__text">
           <p>{msg.text}</p>
-          {msg.picture ? (
+          {msg.picture && (
             <div className="w-full mt-2">
               <Image src={checkPicture(msg.picture)} alt="image" />
             </div>
-          ) : (
-            <></>
           )}
         </div>
         <div className="message__time">
-          {isMine ? (
+          {isMine && (
             <>
               <IconButton
                 name="pencil"
@@ -57,13 +55,9 @@ export const Message = ({ msg }: Props) => {
                 onClick={changeMessagesStoreStateD}
               />
             </>
-          ) : (
-            <></>
           )}
 
-          <span className="pl-2">
-            {msg.time ? formatAMPM(msg.time) : "00:00 AM"}
-          </span>
+          <span className="pl-2">{msg.time && formatAMPM(msg.time)}</span>
           <i className={`bx bx-${msg.status}`}></i>
         </div>
       </div>

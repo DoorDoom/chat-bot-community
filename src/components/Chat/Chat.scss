@@ -2,6 +2,10 @@
   @apply flex flex-col justify-end;
 }
 
+.chat-container {
+  @apply overflow-auto flex flex-col-reverse;
+}
+
 .date {
   @apply w-full text-center py-3;
 }

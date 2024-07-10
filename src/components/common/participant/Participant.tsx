@@ -11,7 +11,7 @@ export const Participant = ({ src, style, isOnline }: Props) => {
       <div className={`participant`}>
         <Image src={src ?? anonimusUser} alt="user" className="w-full h-full" />
       </div>
-      {isOnline ? <div className="online" /> : <></>}
+      {isOnline && <div className="online" />}
     </div>
   );
 };

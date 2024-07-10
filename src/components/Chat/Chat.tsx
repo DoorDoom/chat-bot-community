@@ -76,18 +76,13 @@ export default function Chat() {
   useEffect(() => toTop(container.current), [messages]);
 
   return (
-    <div
-      className="item-expand overflow-auto flex flex-col justify-end"
-      ref={container}
-    >
+    <div className="item-expand chat-container" ref={container}>
       <div className="chat item">
         {messages.map((msg, index) => (
           <div key={`message-${index}`} className="max-w-full grid">
-            {index == 0 ||
-            getDate(messages[index - 1].time) !== getDate(msg.time) ? (
+            {(index == 0 ||
+              getDate(messages[index - 1].time) !== getDate(msg.time)) && (
               <span className="date">{getDate(msg.time)}</span>
-            ) : (
-              <></>
             )}
             <Message msg={msg} />
           </div>
