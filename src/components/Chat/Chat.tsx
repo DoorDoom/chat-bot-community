@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { getHello } from "services/apiService";
 import { useMessagesStore } from "stores/messagesStore";
 import { HttpError } from "types/errors";
-import { formatAMPM, getDate, toTop } from "utils/utils";
+import { getDate, toTop } from "utils/utils";
 import { Footer } from "@components/Footer/Footer";
 import { Header } from "@components/Header/Header";
 import { useUserStore } from "stores/userStore";
@@ -35,10 +35,7 @@ export default function Chat() {
 
       const newMessage: MessageInfo = await response.json();
       editStorage();
-      addMessage({ ...newMessage, time: new Date().toISOString() });
-      console.log(
-        formatAMPM({ ...newMessage, time: new Date().toISOString() }.time)
-      );
+      await addMessage({ ...newMessage, time: new Date().toISOString() });
     } catch (error) {
       setError((error as HttpError).message);
     }
