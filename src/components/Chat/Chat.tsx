@@ -5,13 +5,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { getHello } from "services/apiService";
 import { useMessagesStore } from "stores/messagesStore";
 import { HttpError } from "types/errors";
-import { getDate, toTop } from "utils/utils";
+import { formatAMPM, getDate, toTop } from "utils/utils";
 import { Footer } from "@components/Footer/Footer";
 import { Header } from "@components/Header/Header";
 import { useUserStore } from "stores/userStore";
 import { Alert } from "antd";
 
 import "./Chat.scss";
+import { MessageInfo } from "types/dataInterfaces";
 
 export default function Chat() {
   const {
@@ -32,9 +33,12 @@ export default function Chat() {
       if (!response.ok)
         throw new HttpError(response.status, "Error occures in telegram bot");
 
-      const newMessage = await response.json();
+      const newMessage: MessageInfo = await response.json();
       editStorage();
       addMessage({ ...newMessage, time: new Date().toISOString() });
+      console.log(
+        formatAMPM({ ...newMessage, time: new Date().toISOString() }.time)
+      );
     } catch (error) {
       setError((error as HttpError).message);
     }
