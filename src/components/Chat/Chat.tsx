@@ -11,12 +11,13 @@ import { Header } from "@components/Header/Header";
 import { useUserStore } from "stores/userStore";
 import { Alert } from "antd";
 
+import { motion } from "framer-motion";
+
 import "./Chat.scss";
 import { MessageInfo } from "types/dataInterfaces";
 import { v4 } from "uuid";
 
 import "./Chat.scss";
-
 
 export default function Chat() {
   const {
@@ -27,7 +28,7 @@ export default function Chat() {
   } = useMessagesStore((state) => state);
   const name = useUserStore((state) => state.name);
   const [error, setError] = useState<string | null>(null);
-
+  const [isInit, setIsInit] = useState(true);
   const container = useRef<HTMLDivElement>(null);
 
   const sendMessage = async () => {
@@ -59,6 +60,7 @@ export default function Chat() {
     if (lastMessageResult && lastMessageResult.name === name) {
       sendMessage();
     }
+    if (messages.length > 0) setIsInit(false);
   }, [messages]);
 
   return (
@@ -67,12 +69,15 @@ export default function Chat() {
       <div className="item-expand chat-container" ref={container}>
         <div className="chat item">
           {messages.map((msg, index) => (
-            <div key={`message-${index}`} className="max-w-full grid">
+            <div
+              key={`message-${index}`}
+              className="max-w-full grid overflow-hidden"
+            >
               {(index == 0 ||
                 getDate(messages[index - 1].time) !== getDate(msg.time)) && (
                 <span className="date">{getDate(msg.time)}</span>
               )}
-              <Message id={msg.id} />
+              <Message id={msg.id} animate={!isInit} />
             </div>
           ))}
         </div>

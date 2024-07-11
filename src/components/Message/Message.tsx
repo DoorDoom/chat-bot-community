@@ -6,8 +6,9 @@ import { useUserStore } from "stores/userStore";
 import "./Message.scss";
 import { IconButton } from "@components/common/IconButton/IconButton";
 import { useMessagesStore } from "stores/messagesStore";
+import { motion } from "framer-motion";
 
-export const Message = ({ id }: Props) => {
+export const Message = ({ id, animate }: Props) => {
   const [deleteMessage, findMessage, setId] = useMessagesStore((state) => [
     state.deleteMessage,
     state.findMessage,
@@ -27,7 +28,12 @@ export const Message = ({ id }: Props) => {
   };
 
   return (
-    <div className={`message ${isMine && "mine-message"}`}>
+    <motion.div
+      initial={{ x: `${isMine ? "100%" : "-100%"}` }}
+      animate={{ x: 0 }}
+      transition={{ duration: animate ? 1 : 0 }}
+      className={`message ${isMine && "mine-message"}`}
+    >
       <Participant src={msg!.photo} style="big-participant" isOnline={true} />
       <div className={isMine ? "block right" : "block left"}>
         <div className="message__title">
@@ -64,10 +70,11 @@ export const Message = ({ id }: Props) => {
           <i className={`bx bx-${msg!.status}`}></i>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 type Props = {
   id: string;
+  animate: boolean;
 };
