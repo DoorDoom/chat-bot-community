@@ -1,13 +1,13 @@
-.footer {
-  @apply shadow-[0_-1px_0_0_#E5E5EA] h-12 flex justify-between items-center px-3;
-}
+@tailwind components;
 
-.footer:focus-within {
-  .send-button {
-    @apply text-azure-radiance;
+@layer components {
+  .footer {
+    @apply shadow-[0_-1px_0_0_#E5E5EA] h-12 flex justify-between items-center px-3;
   }
-}
 
-.send-button {
-  @apply text-manatee;
+  .footer:focus-within {
+    .disabled-button {
+      @apply text-azure-radiance;
+    }
+  }
 }

@@ -1,18 +1,18 @@
-.participant {
-  @apply w-7 h-7 rounded-full overflow-hidden relative border-white border-[1px];
-}
+@tailwind components;
 
-.big-participant {
+@layer components {
   .participant {
-    @apply w-34p h-34p min-w-34p;
+    @apply w-7 h-7 rounded-full overflow-hidden relative border-white border-[1px];
   }
-}
 
-.participant::after {
-  @apply absolute block border-cod-gray/10 border-2 w-full h-full rounded-full inset-0;
-  content: "";
-}
+  .big-participant {
+    .participant {
+      @apply w-34p h-34p min-w-34p;
+    }
+  }
 
-.online {
-  @apply bg-emerald w-10p h-10p absolute bottom-0 right-0 border-[1px] rounded-full border-white;
+  .participant::after {
+    @apply absolute block border-cod-gray/10 border-2 w-full h-full rounded-full inset-0;
+    content: "";
+  }
 }

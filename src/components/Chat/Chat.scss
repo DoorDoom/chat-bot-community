@@ -1,11 +1,15 @@
-.chat {
-  @apply flex flex-col justify-end;
-}
+@tailwind components;
 
-.chat-container {
-  @apply overflow-auto flex flex-col-reverse;
-}
+@layer components {
+  .chat {
+    @apply flex flex-col justify-end;
+  }
 
-.date {
-  @apply w-full text-center py-3;
+  .chat-container {
+    @apply overflow-auto flex flex-col-reverse;
+  }
+
+  .date {
+    @apply w-full text-center py-3;
+  }
 }

@@ -1,93 +1,94 @@
-.message {
-  @apply flex justify-start pl-4 py-2 max-w-[60%];
+@tailwind components;
 
-  &__time {
-    @apply absolute bottom-1 right-2 flex gap-1;
-  }
+@layer components {
+  .message {
+    @apply flex justify-start pl-4 py-2 max-w-[60%];
 
-  &__text {
-    @apply mt-1 mb-3 max-w-full text-wrap min-w-32 sm:min-w-36;
-
-    p {
-      @apply max-w-full text-wrap break-words;
+    &__time {
+      @apply absolute bottom-1 right-2 flex gap-1;
     }
-    p::after {
-      content: "–––––";
-      visibility: hidden;
-      white-space: nowrap;
+
+    &__text {
+      @apply mt-1 mb-3 max-w-full text-wrap min-w-32 sm:min-w-36;
+
+      p {
+        @apply max-w-full text-wrap break-words hyphens-auto;
+      }
+      p::after {
+        content: "–––––";
+        visibility: hidden;
+        white-space: nowrap;
+      }
+    }
+
+    &__title {
+      @apply flex gap-2 items-center;
+    }
+
+    i {
+      @apply hidden;
     }
   }
 
-  &__title {
-    @apply flex gap-2 items-center;
-  }
+  .message.mine-message {
+    @apply pr-6 justify-self-end;
 
-  i {
-    @apply hidden;
-  }
-}
+    .big-participant {
+      @apply hidden;
+    }
 
-.message.mine-message {
-  @apply pr-6 justify-self-end;
+    .block {
+      @apply bg-azure-radiance rounded-md px-2 py-1 pb-3 md:pb-2 ml-3 relative text-white max-w-full;
 
-  .big-participant {
-    @apply hidden;
+      .message {
+        &__title {
+          @apply hidden;
+        }
+
+        &__text {
+          p::after {
+            content: "––––––";
+            visibility: hidden;
+            white-space: nowrap;
+          }
+        }
+      }
+
+      span {
+        @apply text-white;
+      }
+    }
+
+    .readed {
+      @apply text-pastel-green;
+    }
+
+    .block.right::after {
+      content: "";
+      position: absolute; /* Абсолютное позиционирование */
+      right: -8px;
+      top: 0px; /* Положение треугольника */
+      border-radius: 2px;
+      border: 10px solid transparent; /* Прозрачные границы */
+      border-top: 10px solid #007aff; /* Добавляем треугольник */
+    }
+
+    i {
+      @apply inline-block;
+    }
   }
 
   .block {
-    @apply bg-azure-radiance rounded-md px-2 py-1 pb-3 md:pb-2 ml-3 relative text-white max-w-full;
-
-    .message {
-      &__title {
-        @apply hidden;
-      }
-
-      &__text {
-        p {
-          @apply text-wrap break-words;
-        }
-        p::after {
-          content: "––––––";
-          visibility: hidden;
-          white-space: nowrap;
-        }
-      }
-    }
-
-    span {
-      @apply text-white;
-    }
+    @apply bg-athens-gray rounded-md px-2 py-1 ml-3 relative text-shark max-w-full;
   }
 
-  .block.right::after {
+  .block.left::after {
     content: "";
     position: absolute; /* Абсолютное позиционирование */
-    right: -8px;
+    left: -8px;
     top: 0px; /* Положение треугольника */
     border-radius: 2px;
     border: 10px solid transparent; /* Прозрачные границы */
-    border-top: 10px solid #007aff; /* Добавляем треугольник */
+    border-top: 10px solid #f2f2f7; /* Добавляем треугольник */
   }
-
-  i {
-    @apply inline-block;
-  }
-}
-
-.block {
-  @apply bg-athens-gray rounded-md px-2 py-1 ml-3 relative text-shark max-w-full;
-}
-
-.block.left::after {
-  content: "";
-  position: absolute; /* Абсолютное позиционирование */
-  left: -8px;
-  top: 0px; /* Положение треугольника */
-  border-radius: 2px;
-  border: 10px solid transparent; /* Прозрачные границы */
-  border-top: 10px solid #f2f2f7; /* Добавляем треугольник */
-}
-
-.readed {
-  @apply text-pastel-green;
 }
