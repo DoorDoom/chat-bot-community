@@ -3,20 +3,25 @@
 import { Message } from "@components/Message/Message";
 import React, { useEffect, useRef } from "react";
 import { getHello } from "services/apiService";
-import { useMessageStore, useMessagesStore } from "stores/messagesStore";
+import { useMessagesStore } from "stores/messagesStore";
 import { HttpError } from "types/errors";
-import "./Chat.scss";
 import { getDate, toTop } from "utils/utils";
+import { Footer } from "@components/Footer/Footer";
+import { Header } from "@components/Header/Header";
+import { useUserStore } from "stores/userStore";
+
+import "./Chat.scss";
 
 export default function Chat() {
   const {
     msgs: messages,
-    addMessage,
-    isCreated,
     editStorage,
-    editMessage,
+    lastMessage,
+    addMessage,
+    setId,
   } = useMessagesStore((state) => state);
-  const { initialMessage } = useMessageStore((state) => state);
+  const name = useUserStore((state) => state.name);
+
   const container = useRef<HTMLDivElement>(null);
 
   const sendMessage = async () => {
@@ -35,41 +40,32 @@ export default function Chat() {
   };
 
   useEffect(() => {
-    const unsubscribe = useMessageStore.subscribe(
-      (state) => state,
-      (newMsg) => {
-        if (isCreated(newMsg.msg.id)) {
-          editMessage(newMsg.msg);
-        } else {
-          if (newMsg.msg.id !== "0") {
-            addMessage(newMsg.msg);
-            initialMessage();
-            sendMessage();
-          }
-        }
-      }
-    );
-
-    return () => {
-      unsubscribe();
-    };
+    return setId("");
   }, []);
 
-  useEffect(() => toTop(container.current), [messages]);
+  useEffect(() => {
+    toTop(container.current);
+    const lastMessageResult = lastMessage();
+    if (lastMessageResult && lastMessageResult.name === name) sendMessage();
+  }, [messages]);
 
   return (
-    <div className="item-expand chat-container" ref={container}>
-      <div className="chat item">
-        {messages.map((msg, index) => (
-          <div key={`message-${index}`} className="max-w-full grid">
-            {(index == 0 ||
-              getDate(messages[index - 1].time) !== getDate(msg.time)) && (
-              <span className="date">{getDate(msg.time)}</span>
-            )}
-            <Message msg={msg} />
-          </div>
-        ))}
+    <>
+      <Header />
+      <div className="item-expand chat-container" ref={container}>
+        <div className="chat item">
+          {messages.map((msg, index) => (
+            <div key={`message-${index}`} className="max-w-full grid">
+              {(index == 0 ||
+                getDate(messages[index - 1].time) !== getDate(msg.time)) && (
+                <span className="date">{getDate(msg.time)}</span>
+              )}
+              <Message id={msg.id} />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }

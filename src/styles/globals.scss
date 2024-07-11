@@ -48,10 +48,6 @@ body {
 }
 
 @layer utilities {
-  .disabled-button {
-    @apply text-manatee;
-  }
-
   .online {
     @apply bg-emerald w-10p h-10p absolute bottom-0 right-0 border-[1px] rounded-full border-white;
   }

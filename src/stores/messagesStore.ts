@@ -1,27 +1,14 @@
-import {
-  MessageInfo,
-  MessageStoredInfo,
-  MessagesStoredInfo,
-} from "types/dataInterfaces";
-import { subscribeWithSelector, persist } from "zustand/middleware";
+import { MessageInfo, MessagesStoredInfo } from "types/dataInterfaces";
+import { persist } from "zustand/middleware";
 import { create } from "zustand";
 import { MessageStatus } from "constants/enums";
-import { initialMessage } from "constants/constants";
 import { produce } from "immer";
-
-//в этом хранилище не думаю, что нужно использовать immer
-export const useMessageStore = create(
-  subscribeWithSelector<MessageStoredInfo>((set) => ({
-    msg: initialMessage,
-    setMessage: (message) => set(() => ({ msg: message })),
-    initialMessage: () => set(() => ({ msg: initialMessage })),
-  }))
-);
 
 export const useMessagesStore = create(
   persist<MessagesStoredInfo>(
     (set, get) => ({
       msgs: [],
+      id: "",
       addMessage: (newMessage: MessageInfo) =>
         set(
           produce((state: MessagesStoredInfo) => {
@@ -37,6 +24,13 @@ export const useMessagesStore = create(
             state.msgs[ind] = newMessage;
           })
         ),
+      setId: (id: string) => {
+        set(
+          produce((state) => {
+            state.id = id;
+          })
+        );
+      },
       deleteMessage: (id: string) =>
         set(
           produce((state) => {
@@ -45,9 +39,17 @@ export const useMessagesStore = create(
             );
           })
         ),
+      lastMessage: () => {
+        const state = get();
+        return state.msgs.slice(-1)[0] ?? null;
+      },
       isCreated: (id: string) => {
         const state = get();
         return state.msgs.some((elem) => elem.id === id);
+      },
+      findMessage: (id: string) => {
+        const state = get();
+        return state.msgs.find((elem) => elem.id === id) ?? null;
       },
       editStorage: () =>
         set(

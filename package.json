@@ -11,6 +11,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
     "antd": "^5.19.0",
+    "autoprefixer": "^10.4.19",
     "boxicons": "^2.1.4",
     "dayjs": "^1.11.11",
     "immer": "^10.1.1",

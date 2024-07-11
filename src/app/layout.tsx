@@ -26,11 +26,7 @@ export default function RootLayout({ children }: Props) {
             },
           }}
         >
-          <main className="main-container">
-            <Header />
-            {children}
-            <Footer />
-          </main>
+          <main className="main-container">{children}</main>
         </ConfigProvider>
       </body>
     </html>

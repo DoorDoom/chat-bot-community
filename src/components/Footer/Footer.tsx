@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Input, Upload, UploadProps } from "antd";
 import { IconButton } from "@components/common/IconButton/IconButton";
-import { useMessageStore, useMessagesStore } from "stores/messagesStore";
+import { useMessagesStore } from "stores/messagesStore";
 import { MessageStatus } from "constants/enums";
 import { fileToString } from "utils/utils";
 import { v4 } from "uuid";
@@ -14,9 +14,11 @@ import "./Footer.scss";
 import useDebounce from "hooks/TimeHooks";
 
 export const Footer = () => {
-  const [message, setMessage] = useState<MessageInfo>(initialMessage);
-  const isCreated = useMessagesStore((state) => state.isCreated);
-  const setMessageState = useMessageStore((state) => state.setMessage);
+  const { isCreated, findMessage, addMessage, editMessage, id } =
+    useMessagesStore((state) => state);
+  const [message, setMessage] = useState<MessageInfo>(
+    id !== "" ? findMessage(id)! : initialMessage
+  );
   const [inputValue, setInputValue] = useState("");
   const debouncedInputValue = useDebounce(inputValue, 500);
 
@@ -48,34 +50,28 @@ export const Footer = () => {
   };
 
   const onClick = () => {
-    isCreated(message.id)
-      ? setMessageState(message)
-      : setMessageState({
-          ...useUserStore.getState(),
-          id: v4(),
-          text: message.text,
-          time: new Date().toISOString(),
-          status: MessageStatus.Sending,
-          picture: message.picture,
-        });
+    if (isCreated(message.id)) {
+      editMessage(message);
+    } else {
+      addMessage({
+        ...useUserStore.getState(),
+        id: v4(),
+        text: message.text,
+        time: new Date().toISOString(),
+        status: MessageStatus.Sending,
+        picture: message.picture,
+      });
+    }
     toInitialState();
   };
 
   useEffect(() => {
-    const unsubscribe = useMessageStore.subscribe(
-      (state) => state,
-      (newMsg) => {
-        if (isCreated(newMsg.msg.id)) {
-          setMessage(newMsg.msg);
-          setInputValue(newMsg.msg.text);
-        }
-      }
-    );
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+    if (id !== "") {
+      const msg = findMessage(id)!;
+      setMessage(msg);
+      setInputValue(msg.text);
+    }
+  }, [id]);
 
   useEffect(() => {
     if (debouncedInputValue || debouncedInputValue === "") {
@@ -116,7 +112,9 @@ export const Footer = () => {
       </div>
       <IconButton
         name="send"
-        style={`send-button ${(message.text || message.picture) && "ready"}`}
+        style={`send-button disabled-button ${
+          (message.text || message.picture) && "ready"
+        }`}
         disabled={!message.text && !message.picture}
         onClick={onClick}
       />
