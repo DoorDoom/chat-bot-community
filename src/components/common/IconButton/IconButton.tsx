@@ -10,6 +10,7 @@ export const IconButton = ({
   disabled,
   onClick,
   size = "large",
+  loading,
 }: Props) => {
   return (
     <Button
@@ -19,6 +20,7 @@ export const IconButton = ({
       icon={<i className={`bx bx-${name} icon-button ${style}`}></i>}
       onClick={onClick}
       className={size}
+      loading={loading}
     />
   );
 };
@@ -29,4 +31,5 @@ type Props = {
   size?: SizeType;
   disabled?: boolean;
   onClick?: () => void;
+  loading?: boolean;
 };

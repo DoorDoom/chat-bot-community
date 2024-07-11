@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MessageInfo } from "types/dataInterfaces";
 
-function useDebounce(value: string, delay: number) {
+export function useDebounce(value: string | boolean, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(
@@ -20,5 +20,3 @@ function useDebounce(value: string, delay: number) {
   );
   return debouncedValue;
 }
-
-export default useDebounce;

@@ -11,7 +11,7 @@ import { useUserStore } from "stores/userStore";
 import { MessageInfo } from "types/dataInterfaces";
 import { initialMessage } from "constants/constants";
 import "./Footer.scss";
-import useDebounce from "hooks/TimeHooks";
+import { useDebounce } from "hooks/TimeHooks";
 
 export const Footer = () => {
   const { isCreated, findMessage, addMessage, editMessage, id } =
@@ -20,7 +20,9 @@ export const Footer = () => {
     id !== "" ? findMessage(id)! : initialMessage
   );
   const [inputValue, setInputValue] = useState("");
-  const debouncedInputValue = useDebounce(inputValue, 500);
+  const [isLoading, setIsLoading] = useState(false);
+  const debouncedInputValue = useDebounce(inputValue, 200);
+  const debouncedLoading = useDebounce(isLoading, 200);
 
   const pictureUpload = (file: string) => {
     setMessage((prev) => {
@@ -30,7 +32,7 @@ export const Footer = () => {
 
   const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if ((event.code === "Enter" && message.text) || message.picture) {
-      onClick();
+      setIsLoading(true);
     }
   };
 
@@ -81,6 +83,13 @@ export const Footer = () => {
     }
   }, [debouncedInputValue]);
 
+  useEffect(() => {
+    if (debouncedLoading) {
+      onClick();
+      setIsLoading(false);
+    }
+  }, [debouncedLoading]);
+
   return (
     <div className="footer">
       <IconButton name="smile" />
@@ -116,7 +125,8 @@ export const Footer = () => {
           (message.text || message.picture) && "ready"
         }`}
         disabled={!message.text && !message.picture}
-        onClick={onClick}
+        onClick={() => setIsLoading(true)}
+        loading={isLoading}
       />
     </div>
   );
