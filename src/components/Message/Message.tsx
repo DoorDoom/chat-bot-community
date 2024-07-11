@@ -31,7 +31,10 @@ export const Message = ({ id, animate }: Props) => {
     <motion.div
       initial={{ x: `${isMine ? "100%" : "-100%"}` }}
       animate={{ x: 0 }}
-      transition={{ duration: animate ? 1 : 0 }}
+      transition={{
+        delay: animate && !isMine ? 0.7 : 0,
+        duration: animate ? 1 : 0,
+      }}
       className={`message ${isMine && "mine-message"}`}
     >
       <Participant src={msg!.photo} style="big-participant" isOnline={true} />
