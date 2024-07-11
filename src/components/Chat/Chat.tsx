@@ -34,7 +34,7 @@ export default function Chat() {
 
       const newMessage = await response.json();
       editStorage();
-      addMessage({ ...newMessage, date: new Date() });
+      addMessage({ ...newMessage, date: new Date().toISOString() });
     } catch (error) {
       setError((error as HttpError).message);
     }
