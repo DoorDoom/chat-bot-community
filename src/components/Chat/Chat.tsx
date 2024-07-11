@@ -15,6 +15,9 @@ import "./Chat.scss";
 import { MessageInfo } from "types/dataInterfaces";
 import { v4 } from "uuid";
 
+import "./Chat.scss";
+
+
 export default function Chat() {
   const {
     msgs: messages,
@@ -39,6 +42,7 @@ export default function Chat() {
       await addMessage({
         ...newMessage,
         id: v4(),
+        time: new Date().toISOString(),
       });
     } catch (error) {
       setError((error as HttpError).message);
