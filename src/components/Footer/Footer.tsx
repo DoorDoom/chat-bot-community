@@ -31,7 +31,7 @@ export const Footer = () => {
   };
 
   const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if ((event.code === "Enter" && message.text) || message.picture) {
+    if (event.code === "Enter" && (message.text || message.picture)) {
       setIsLoading(true);
     }
   };
