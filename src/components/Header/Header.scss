@@ -2,7 +2,7 @@
 
 @layer components {
   .header {
-    @apply shadow-[0_1px_0_0_#E5E5EA] h-17 flex justify-between items-center px-14p;
+    @apply shadow-[0_1px_0_0_#E5E5EA] h-17 flex justify-between items-center px-14p mb-1p;
 
     &__naming {
       @apply flex flex-col justify-between items-center gap-1;
@@ -10,6 +10,14 @@
 
     &__panel {
       @apply flex justify-end;
+    }
+  }
+
+  .date-container {
+    @apply flex justify-center w-full absolute z-10;
+
+    .date {
+      @apply bg-white px-2 py-1 mt-1p sm:mt-1 rounded-md w-fit;
     }
   }
 }
