@@ -1,7 +1,7 @@
 "use client";
 
 import { Message } from "@components/Message/Message";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getHello } from "services/apiService";
 import { useMessagesStore } from "stores/messagesStore";
 import { HttpError } from "types/errors";
@@ -9,6 +9,7 @@ import { getDate, toTop } from "utils/utils";
 import { Footer } from "@components/Footer/Footer";
 import { Header } from "@components/Header/Header";
 import { useUserStore } from "stores/userStore";
+import { Alert } from "antd";
 
 import "./Chat.scss";
 
@@ -16,11 +17,11 @@ export default function Chat() {
   const {
     msgs: messages,
     editStorage,
-    lastMessage,
     addMessage,
     setId,
   } = useMessagesStore((state) => state);
   const name = useUserStore((state) => state.name);
+  const [error, setError] = useState<string | null>(null);
 
   const container = useRef<HTMLDivElement>(null);
 
@@ -35,7 +36,7 @@ export default function Chat() {
       editStorage();
       addMessage(newMessage);
     } catch (error) {
-      console.log(error);
+      setError((error as HttpError).message);
     }
   };
 
@@ -45,8 +46,10 @@ export default function Chat() {
 
   useEffect(() => {
     toTop(container.current);
-    const lastMessageResult = lastMessage();
-    if (lastMessageResult && lastMessageResult.name === name) sendMessage();
+    const lastMessageResult = messages.slice(-1)[0];
+    if (lastMessageResult && lastMessageResult.name === name) {
+      sendMessage();
+    }
   }, [messages]);
 
   return (
@@ -65,6 +68,15 @@ export default function Chat() {
           ))}
         </div>
       </div>
+      {error && (
+        <Alert
+          message={error}
+          type="error"
+          onClose={() => setError(null)}
+          closable={true}
+          banner
+        />
+      )}
       <Footer />
     </>
   );

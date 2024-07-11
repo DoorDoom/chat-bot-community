@@ -39,10 +39,6 @@ export const useMessagesStore = create(
             );
           })
         ),
-      lastMessage: () => {
-        const state = get();
-        return state.msgs.slice(-1)[0] ?? null;
-      },
       isCreated: (id: string) => {
         const state = get();
         return state.msgs.some((elem) => elem.id === id);

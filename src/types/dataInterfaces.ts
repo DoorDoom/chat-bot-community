@@ -21,5 +21,4 @@ export interface MessagesStoredInfo {
   isCreated: (id: string) => boolean;
   findMessage: (id: string) => MessageInfo | null;
   setId: (id: string) => void;
-  lastMessage: () => MessageInfo | null;
 }
