@@ -13,6 +13,7 @@ import { Alert } from "antd";
 
 import "./Chat.scss";
 import { MessageInfo } from "types/dataInterfaces";
+import { v4 } from "uuid";
 
 export default function Chat() {
   const {
@@ -35,7 +36,10 @@ export default function Chat() {
 
       const newMessage: MessageInfo = await response.json();
       editStorage();
-      await addMessage({ ...newMessage, time: new Date().toISOString() });
+      await addMessage({
+        ...newMessage,
+        id: v4(),
+      });
     } catch (error) {
       setError((error as HttpError).message);
     }
