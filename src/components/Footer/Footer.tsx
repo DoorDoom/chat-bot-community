@@ -14,7 +14,7 @@ import "./Footer.scss";
 import { useDebounce } from "hooks/TimeHooks";
 
 export const Footer = () => {
-  const { isCreated, findMessage, addMessage, editMessage, id } =
+  const { isCreated, findMessage, addMessage, editMessage, id, setId } =
     useMessagesStore((state) => state);
   const [message, setMessage] = useState<MessageInfo>(
     id !== "" ? findMessage(id)! : initialMessage
@@ -49,6 +49,7 @@ export const Footer = () => {
   const toInitialState = () => {
     setMessage(initialMessage);
     setInputValue("");
+    setId("");
   };
 
   const onClick = () => {
