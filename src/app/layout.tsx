@@ -1,18 +1,18 @@
 import React, { ReactNode } from "react";
 import { ConfigProvider } from "antd";
+import { Viewport } from "next";
 import "boxicons/css/boxicons.min.css";
-
 import "@styles/globals.scss";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
-      <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
-        />
-      </head>
       <body>
         <ConfigProvider
           theme={{
