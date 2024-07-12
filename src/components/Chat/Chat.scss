@@ -3,6 +3,10 @@
 @layer components {
   .chat {
     @apply flex flex-col justify-end;
+
+    &_inner-container {
+      @apply max-w-full grid overflow-hidden;
+    }
   }
 
   .chat-container {

@@ -50,17 +50,21 @@ export default function Chat() {
     }
   };
 
+  const checkLastMessage = () => {
+    const lastMessageResult = messages.slice(-1)[0];
+    if (lastMessageResult && lastMessageResult.name === name) {
+      sendMessage();
+    }
+    if (messages.length > 0) setIsInit(false);
+  };
+
   useEffect(() => {
     return setId("");
   }, []);
 
   useEffect(() => {
     toTop(container.current);
-    const lastMessageResult = messages.slice(-1)[0];
-    if (lastMessageResult && lastMessageResult.name === name) {
-      sendMessage();
-    }
-    if (messages.length > 0) setIsInit(false);
+    checkLastMessage();
   }, [messages]);
 
   return (
@@ -69,10 +73,7 @@ export default function Chat() {
       <div className="item-expand chat-container" ref={container}>
         <div className="chat item">
           {messages.map((msg, index) => (
-            <div
-              key={`message-${index}`}
-              className="max-w-full grid overflow-hidden"
-            >
+            <div key={`message-${index}`} className="chat_inner-container">
               {(index == 0 ||
                 getDate(messages[index - 1].time) !== getDate(msg.time)) && (
                 <span className="date">{getDate(msg.time)}</span>
@@ -89,6 +90,7 @@ export default function Chat() {
           onClose={() => setError(null)}
           closable={true}
           banner
+          className="text-cod-gray"
         />
       )}
       <Footer />
