@@ -3,7 +3,7 @@ import { Image } from "antd";
 
 import "./Participant.scss";
 
-const anonimusUser = "../../../../users/anonimus.jpg";
+const anonimusUser = "./users/anonimus.jpg";
 
 export const Participant = ({ src, style, isOnline }: Props) => {
   return (
