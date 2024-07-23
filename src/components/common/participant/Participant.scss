@@ -1,18 +1,19 @@
-@tailwind components;
-
-@layer components {
+.big-participant {
   .participant {
-    @apply w-7 h-7 rounded-full overflow-hidden relative border-white border-[1px];
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
   }
+}
 
-  .big-participant {
-    .participant {
-      @apply w-34p h-34p min-w-34p;
-    }
-  }
-
-  .participant::after {
-    @apply absolute block border-cod-gray/10 border-2 w-full h-full rounded-full inset-0;
-    content: "";
-  }
+.participant::after {
+  display: block;
+  position: absolute;
+  border-color: rgb(30, 30, 30, 0.1);
+  border-width: 2px;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  inset: 0px;
+  content: "";
 }

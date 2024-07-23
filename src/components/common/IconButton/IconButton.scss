@@ -2,7 +2,7 @@
 
 @layer components {
   .icon-button.mini-icon {
-    @apply text-[0.75rem];
+    font-size: 0.75rem;
   }
 
   .ant-btn.large {

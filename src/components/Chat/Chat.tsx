@@ -10,14 +10,8 @@ import { Footer } from "@components/Footer/Footer";
 import { Header } from "@components/Header/Header";
 import { useUserStore } from "stores/userStore";
 import { Alert } from "antd";
-
-import { motion } from "framer-motion";
-
-import "./Chat.scss";
 import { MessageInfo } from "types/dataInterfaces";
 import { v4 } from "uuid";
-
-import "./Chat.scss";
 
 export default function Chat() {
   const {
@@ -70,13 +64,21 @@ export default function Chat() {
   return (
     <>
       <Header />
-      <div className="item-expand chat-container" ref={container}>
-        <div className="chat item">
+      <div
+        className="item-expand overflow-auto flex flex-col-reverse"
+        ref={container}
+      >
+        <div className="flex flex-col justify-end">
           {messages.map((msg, index) => (
-            <div key={`message-${index}`} className="chat_inner-container">
+            <div
+              key={`message-${index}`}
+              className="max-w-full grid overflow-hidden"
+            >
               {(index == 0 ||
                 getDate(messages[index - 1].time) !== getDate(msg.time)) && (
-                <span className="date">{getDate(msg.time)}</span>
+                <span className="w-full text-center py-3">
+                  {getDate(msg.time)}
+                </span>
               )}
               <Message id={msg.id} animate={!isInit} />
             </div>

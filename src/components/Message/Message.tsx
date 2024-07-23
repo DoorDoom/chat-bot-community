@@ -35,23 +35,27 @@ export const Message = ({ id, animate }: Props) => {
         delay: animate && !isMine ? 0.7 : 0,
         duration: animate ? 1 : 0,
       }}
-      className={`message ${isMine && "mine-message"}`}
+      className={`message flex justify-start pl-4 py-2 max-w-[60%] ${
+        isMine && "mine-message"
+      }`}
     >
       <Participant src={msg!.photo} style="big-participant" isOnline={true} />
       <div className={isMine ? "block right" : "block left"}>
-        <div className="message__title">
+        <div className="message__title flex gap-2 items-center">
           <h2>{msg!.name}</h2>
           <span>{msg!.position}</span>
         </div>
-        <div className="message__text">
-          <p>{msg!.text}</p>
+        <div className="message__text mt-1 mb-3 max-w-full text-wrap min-w-32 sm:min-w-36">
+          <p className=" max-w-full text-wrap break-words hyphens-auto">
+            {msg!.text}
+          </p>
           {msg!.picture && (
             <div className="w-full mt-2">
               <Image src={checkPicture(msg!.picture)} alt="image" />
             </div>
           )}
         </div>
-        <div className="message__time">
+        <div className="absolute bottom-1 right-2 flex gap-1">
           {isMine && (
             <>
               <IconButton

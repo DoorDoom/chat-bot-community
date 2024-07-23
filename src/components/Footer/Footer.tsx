@@ -92,7 +92,7 @@ export const Footer = () => {
   }, [debouncedLoading]);
 
   return (
-    <div className="footer">
+    <div className="shadow-[0_-1px_0_0_#E5E5EA] h-12 px-3 focus-within:text-azure-radiance centered-flex">
       <IconButton name="smile" />
       <div className="item-expand">
         <Input
@@ -122,7 +122,7 @@ export const Footer = () => {
       </div>
       <IconButton
         name="send"
-        style={`send-button disabled-button ${
+        style={`disabled-button ${
           (message.text || message.picture) && "ready"
         }`}
         disabled={!message.text && !message.picture}

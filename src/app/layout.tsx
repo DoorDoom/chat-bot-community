@@ -30,7 +30,7 @@ export default function RootLayout({ children }: Props) {
             },
           }}
         >
-          <main className="main-container">{children}</main>
+          <main className="flex flex-col">{children}</main>
         </ConfigProvider>
       </body>
     </html>

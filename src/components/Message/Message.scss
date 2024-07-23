@@ -2,18 +2,7 @@
 
 @layer components {
   .message {
-    @apply flex justify-start pl-4 py-2 max-w-[60%];
-
-    &__time {
-      @apply absolute bottom-1 right-2 flex gap-1;
-    }
-
     &__text {
-      @apply mt-1 mb-3 max-w-full text-wrap min-w-32 sm:min-w-36;
-
-      p {
-        @apply max-w-full text-wrap break-words hyphens-auto;
-      }
       p::after {
         content: "–––––";
         visibility: hidden;
@@ -21,20 +10,17 @@
       }
     }
 
-    &__title {
-      @apply flex gap-2 items-center;
-    }
-
     i {
-      @apply hidden;
+      display: none;
     }
   }
 
   .message.mine-message {
-    @apply pr-6 justify-self-end;
+    padding-right: 1.5rem;
+    justify-self: end;
 
     .big-participant {
-      @apply hidden;
+      display: none;
     }
 
     .block {
@@ -42,25 +28,23 @@
 
       .message {
         &__title {
-          @apply hidden;
+          display: none;
         }
 
         &__text {
           p::after {
             content: "––––––";
-            visibility: hidden;
-            white-space: nowrap;
           }
         }
       }
 
       span {
-        @apply text-white;
+        color: white;
       }
     }
 
     .readed {
-      @apply text-pastel-green;
+      color: rgb(129 226 153);
     }
 
     .block.right::after {
@@ -74,7 +58,7 @@
     }
 
     i {
-      @apply inline-block;
+      display: inline-block;
     }
   }
 

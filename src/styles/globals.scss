@@ -34,10 +34,6 @@ body {
     @apply text-base;
   }
 
-  .main-container {
-    @apply flex flex-col;
-  }
-
   .item-expand {
     @apply grow shrink basis-0;
   }
@@ -50,5 +46,9 @@ body {
 @layer utilities {
   .online {
     @apply bg-emerald w-10p h-10p absolute bottom-0 right-0 border-[1px] rounded-full border-white;
+  }
+
+  .centered-flex {
+    @apply flex justify-between items-center;
   }
 }
